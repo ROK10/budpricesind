@@ -74,27 +74,25 @@ public class ParseTask {
             Elements materialsNames = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[1]/div/a");
             Elements materialsPrices = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[2]/span");
             Elements materialsUnits = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[2]");
-            String unit = materialsUnits.attr("price");
-
-
-
-            /*Materials obj = new Materials();
             for (Element el: materialsNames){
+                Materials obj = new Materials();
                 String name = el.ownText();
                 if(!materialsService.isExist(name)){
                     obj.setName(name);
+                    for (Element el1: materialsPrices) {
+                        String price = el1.ownText();
+                        if(el1.ownText().contains("-")||el1.ownText().isEmpty()){
+                            price = el1.child(0).ownText();
+                        }
+                        obj.setPrice(Double.parseDouble(price.replace(" ", "")));
+                    }
+                    for (Element el2: materialsUnits) {
+                        String unit = el2.ownText();
+                        obj.setUnit(unit);
+                    }
+                    materialsService.save(obj);
                 }
             }
-            for (Element el: materialsPrices){
-                String price = el.ownText();
-                obj.setPrice(Integer.parseInt(price.replace(" ","")));
-
-            }
-            for (Element el: materialsUnits){
-                //String unit = el.ownText();
-                obj.setUnit(unit);
-            }
-            materialsService.save(obj);*/
         }
     }
 }

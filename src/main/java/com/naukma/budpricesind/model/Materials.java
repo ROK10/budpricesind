@@ -22,7 +22,7 @@ public class Materials {
     private String unit;
 
     @Column(name = "price")
-    private long price;
+    private double price;
 
 
 
