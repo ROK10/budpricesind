@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class Materials {
+public class Material {
 
     @Id
     @Column(name = "id", nullable = false,unique = true)

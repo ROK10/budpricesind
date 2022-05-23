@@ -1,6 +1,6 @@
 package com.naukma.budpricesind.service;
 
-import com.naukma.budpricesind.model.Materials;
+import com.naukma.budpricesind.model.Material;
 import com.naukma.budpricesind.repository.MaterialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,14 +14,14 @@ public class MaterialsServiceImpl implements MaterialsService{
     MaterialsRepository materialsRepository;
 
     @Override
-    public void save(Materials materials) {
-        materialsRepository.save(materials);
+    public void save(Material material) {
+        materialsRepository.save(material);
     }
 
     @Override
     public boolean isExist(String name) {
-        List<Materials> materials = materialsRepository.findAll();
-        for (Materials n: materials) {
+        List<Material> materials = materialsRepository.findAll();
+        for (Material n: materials) {
             if (n.getName().equals(name)){
                 return true;
             }
@@ -30,7 +30,7 @@ public class MaterialsServiceImpl implements MaterialsService{
     }
 
     @Override
-    public List<Materials> getAllMaterials() {
+    public List<Material> getAllMaterials() {
         return materialsRepository.findAll();
     }
 }

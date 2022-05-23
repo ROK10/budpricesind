@@ -1,6 +1,6 @@
 package com.naukma.budpricesind.job;
 
-import com.naukma.budpricesind.model.Materials;
+import com.naukma.budpricesind.model.Material;
 import com.naukma.budpricesind.service.MaterialsService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,10 +11,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static ch.qos.logback.core.joran.spi.ConsoleTarget.SystemOut;
 
 @Component
 public class ParseTask {
@@ -28,12 +24,6 @@ public class ParseTask {
         String url = "https://flagma.ua/products/bitum/q=дорожный+битум/price:wholesale/";
         parseAllPages(url, findLastPage(url));
 
-        ///html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/span
-        ///html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/text()
-
-        ///html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[10]/div[1]/div[2]/span
-        ///html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[10]/div[1]/div[2]/text()
-
     }
 
     public void parseAllPages(String url, int numberOfPages){
@@ -41,7 +31,7 @@ public class ParseTask {
             url += "page-" + i + "/";
             try {
                 Document doc = Jsoup.connect(url)
-                        .userAgent("Chrome")
+                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36")
                         .timeout(10000)
                         .referrer("https://www.google.com/")
                         .get();
@@ -53,10 +43,10 @@ public class ParseTask {
     }
 
     public int findLastPage(String url) {
-        int lastPage = 0;
+        int lastPage = 1;
         try {
             Document doc = Jsoup.connect(url)
-                    .userAgent("Chrome")
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36")
                     .timeout(10000)
                     .referrer("https://www.google.com/")
                     .get();
@@ -75,7 +65,7 @@ public class ParseTask {
             Elements materialsPrices = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[2]/span");
             Elements materialsUnits = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[2]");
             for (Element el: materialsNames){
-                Materials obj = new Materials();
+                Material obj = new Material();
                 String name = el.ownText();
                 if(!materialsService.isExist(name)){
                     obj.setName(name);

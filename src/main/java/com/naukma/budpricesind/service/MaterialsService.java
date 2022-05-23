@@ -1,6 +1,6 @@
 package com.naukma.budpricesind.service;
 
-import com.naukma.budpricesind.model.Materials;
+import com.naukma.budpricesind.model.Material;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public interface MaterialsService {
 
-    public void save(Materials materials);
+    public void save(Material material);
     public boolean isExist(String name);
-    public List<Materials> getAllMaterials();
+    public List<Material> getAllMaterials();
 }
