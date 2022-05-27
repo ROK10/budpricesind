@@ -11,13 +11,11 @@
     <link rel="stylesheet" href="../static/style.css" th:href="@{/style.css}">
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <main class="content">
         <div class="block">
             <div class="row">
                 <div class="container">
-
-                    <h1>Bootstrap 3 SortTable</h1>
+                    <h1>Search Result</h1>
                     <table class="table responsive" id="sort">
                         <thead>
                         <tr>
@@ -25,6 +23,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Price</th>
                             <th scope="col">Unit</th>
+                            <th scope="col">Provider</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -33,6 +32,7 @@
                                 <td data-table-header="Name" th:text="${Material.name}"></td>
                                 <td data-table-header="Price" th:text="${Material.price}"></td>
                                 <td data-table-header="Unit" th:text="${Material.unit}"></td>
+                                <td data-table-header="Provider" th:text="${Material.provider}"></td>
                             </tr>
                         </tbody>
                     </table>

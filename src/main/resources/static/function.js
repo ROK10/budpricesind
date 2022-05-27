@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $("#sort").DataTable({
         columnDefs : [
-            { type : 'date', targets : [3] }
+            { type : 'date', targets : [4] }
         ],
     });
 });

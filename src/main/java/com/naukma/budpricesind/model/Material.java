@@ -8,6 +8,10 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "materials")
 public class Material {
 
     @Id
@@ -24,6 +28,19 @@ public class Material {
     @Column(name = "price")
     private double price;
 
+    @Column(name = "provider")
+    private String provider;
 
+    @ManyToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    @JoinColumn(name = "material_types")
+    private MaterialType type;
 
+    public MaterialType getMaterialType() {
+        return type;
+    }
+
+    public void setMaterialType(MaterialType materialType) {
+        this.type = materialType;
+    }
 }
