@@ -21,6 +21,10 @@
 .profile-container{
     margin-top: 200px;
 }
+
+.input-group{
+    margin-bottom: 16px;
+}
 .block1{
     box-sizing: border-box;
     width: 100%;
@@ -41,7 +45,7 @@ tr:nth-of-type(even) {
 }
 
 th {
-    background: #5cb85c;
+    background: #0d6efd;
     color: #ffffff;
     font-weight: 300;
 }

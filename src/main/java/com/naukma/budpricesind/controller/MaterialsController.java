@@ -39,10 +39,12 @@ public class MaterialsController {
     @RequestMapping(value = "/materials",method = RequestMethod.GET)
     public String getMaterials(Model model,
                                @ModelAttribute("selectedMaterial") MaterialType selectedMaterial,
-                               @ModelAttribute("selectedCountry") Country selectedCountry){
+                               @ModelAttribute("selectedCountry") Country selectedCountry,
+                               @RequestParam(name = "page") int page){
         materialsService.clear();
         ParseTask task = new ParseTask();
-        task.parseNewMaterial(materialsService,selectedMaterial.getTypeName(),selectedCountry.getCountryName());
+        selectedMaterial.setSection(search(materialsTypes, selectedMaterial.getTypeName()).getSection());
+        task.parseNewMaterial(materialsService, selectedMaterial, selectedCountry.getCountryName(), page);
         model.addAttribute("materials", materialsService.getAllMaterials());
         return  "materials-list";
     }
@@ -70,32 +72,46 @@ public class MaterialsController {
         Country c4 = new Country();
         type1.setTypeName("Цемент");
         type1.setText("Цемент");
+        type1.setSection("/cement");
         type2.setTypeName("Металопрокат");
         type2.setText("Металопрокат");
+        type2.setSection("/metallicheskaya-armatura");
         type3.setTypeName("Асфальтобетонная+смесь");
         type3.setText("Асфальтобетонна суміш");
+        type3.setSection("/asfalt-asfaltobeton");
         type4.setTypeName("Щебень+кубовидный");
         type4.setText("Щебінь кубовидний");
+        type4.setSection("/shcheben-graviy");
         type5.setTypeName("Металлическое+барьерное+ограждение");
         type5.setText("Металеве бар'єрне огородження");
+        type5.setSection("/dorozhnoe-ograzhdenie");
         type6.setTypeName("Краски+для+дорожной+разметки");
         type6.setText("Фарби для дорожньої розмітки");
+        type6.setSection("/kraski-dlya-dorozhnoy-razmetki");
         type7.setTypeName("Дизельное+топливо");
         type7.setText("Паливо дизельне");
-        type8.setTypeName("Полимерные+ленты для+дорожной+разметки");
+        type7.setSection("/dizelnoe-toplivo");
+        type8.setTypeName("Полимерные+ленты+для+дорожной+разметки");
         type8.setText("Полімерні стрічки для дорожньої розмітки");
+        type8.setSection("/konveyernye-lenty");
         type9.setTypeName("Звенья+водопропускных+труб");
         type9.setText("Ланки водопропускних труб");
-        type10.setTypeName("Битум+дорожный");
-        type10.setText("Бітум дорожній");
+        type9.setSection("/truby-zhelezobetonnye-asbestocementnye");
+        type10.setTypeName("Дорожный+битум");
+        type10.setText("Дорожній бітум");
+        type10.setSection("/bitum");
         type11.setTypeName("Эмульсия+битумная");
         type11.setText("Емульсія бітумна");
+        type11.setSection("/bitum");
         type12.setTypeName("Щебень");
         type12.setText("Щебінь");
+        type12.setSection("/shcheben-graviy");
         type13.setTypeName("Щебеночно+песчаная+смесь");
         type13.setText("Щебенево-піщана суміш");
+        type13.setSection("/universalnye-stroitelnye-smesi");
         type14.setTypeName("Мазут+топливный");
         type14.setText("Мазут  паливний");
+        type14.setSection("/mazut");
         c1.setCountryName("ua");
         c1.setText("Україна");
         c2.setCountryName("by");
@@ -125,5 +141,13 @@ public class MaterialsController {
         isAdded=true;
     }
 
+    public static MaterialType search(List <MaterialType> list, String typeName) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getTypeName().equals(typeName)){
+                return list.get(i);
+            }
+        }
+        return null;
+    }
 }
 

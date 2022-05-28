@@ -19,11 +19,16 @@
                                     th:value="${Types.typeName}"
                                     th:text="${Types.text}">Options</option>
                     </select>
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialName" id="materialCountry" th:field="*{countryName}" th:object="${selectedCountry}" required>
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialCountry" id="materialCountry" th:field="*{countryName}" th:object="${selectedCountry}" required>
                             <option th:each="Countries : ${countries}"
                                     th:value="${Countries.countryName}"
                                     th:text="${Countries.text}">Options</option>
                     </select>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text" id="inputGroup-sizing-lg">Number of pages to parse</span>
+                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name="page" required>
+                    </div>
+
                     <!--<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialName" id="pagesToParse" th:field="*{typeName}" required>
                         <option th:each="Types : ${materialsTypes}"
                                 th:value="${Types.typeName}"

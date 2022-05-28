@@ -15,8 +15,8 @@ import javax.persistence.*;
 public class Material {
 
     @Id
-    @Column(name = "id", nullable = false,unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(name = "name")
@@ -30,4 +30,9 @@ public class Material {
 
     @Column(name = "provider")
     private String provider;
+
+    @ManyToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    @JoinColumn(name = "type")
+    private MaterialType type;
 }
