@@ -23,7 +23,6 @@ public class ParseTask {
         country = countryName;
         currentType = materialType;
         String url = "https://flagma." + countryName + "/products" + materialType.getSection() + "/q=" + materialType.getTypeName() + "/type:sell/";
-        //String url = "https://flagma.ua/products/bitum/q=дорожный+битум/price:wholesale/";
         parseAllPages(url, findLastPage(url,page),materialsService);
     }
 
