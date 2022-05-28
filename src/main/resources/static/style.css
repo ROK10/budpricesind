@@ -18,7 +18,9 @@
 .select {
     width: 100%;
 }
-
+.profile-container{
+    margin-top: 200px;
+}
 .block1{
     box-sizing: border-box;
     width: 100%;

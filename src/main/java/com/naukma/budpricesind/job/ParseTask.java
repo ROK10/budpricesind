@@ -1,50 +1,38 @@
 package com.naukma.budpricesind.job;
 
 import com.naukma.budpricesind.model.Material;
-import com.naukma.budpricesind.model.MaterialType;
 import com.naukma.budpricesind.service.MaterialsService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
 @Component
 public class ParseTask {
 
-    @Autowired
-    MaterialsService materialsService;
-
+    public String country = "";
     public String uAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36";
 
-
-    public void parseNewMaterial(String materialName, String materialUnit){
-        MaterialType materialType= new MaterialType();
-        MaterialType materialType2= new MaterialType();
-        materialType.setText("Бітум дорожній");
-        materialType.setTypeName("Битум+дорожный");
-        materialType2.setText("Цемент");
-        materialType2.setTypeName("Цемент");
-        String url = "https://flagma.ua/products/bitum/q=дорожный+битум/price:wholesale/";
-        parseAllPages(url, findLastPage(url));
-
+    public void parseNewMaterial(MaterialsService materialsService, String materialName, String countryName){
+        country = countryName;
+        String url = "https://flagma." + countryName + "/products/q=" + materialName + "/price:wholesale/";
+        //String url = "https://flagma.ua/products/bitum/q=дорожный+битум/price:wholesale/";
+        parseAllPages(url, findLastPage(url),materialsService);
     }
 
-    public void parseAllPages(String url, int numberOfPages){
+    public void parseAllPages(String url, int numberOfPages,MaterialsService materialsService){
         for (int i = 1; i <= numberOfPages; i++){
             url += "page-" + i + "/";
             try {
                 Document doc = Jsoup.connect(url)
                         .userAgent(uAgent)
-                        .timeout(10000)
+                        .timeout(50000)
                         .referrer("https://www.google.com/")
                         .get();
-                parsePage(doc);
+                parsePage(doc,materialsService);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -59,21 +47,47 @@ public class ParseTask {
                     .timeout(10000)
                     .referrer("https://www.google.com/")
                     .get();
-            Elements pageNumber = doc.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[3]/ul/li[7]/span");
+            Elements pageNumber;
+            if (country.equals("pl")){
+                pageNumber = doc.selectXpath("/html/body/div[1]/main/div[8]/div[2]/div[3]/ul/li[6]/span");
+            }else {
+                if (country.equals("kz")){
+                    pageNumber = doc.selectXpath("/html/body/div[1]/main/div[8]/div[2]/div[2]/ul/li[7]/span");
+                }else {
+                    pageNumber = doc.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[3]/ul/li[7]/span");
+                }
+            }
             Element el = pageNumber.first();
-            lastPage = Integer.parseInt(el.ownText());
+            if (el == null){
+                return 2;
+            }else {
+                lastPage = Integer.parseInt(el.ownText());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if (lastPage >3)
+            return 3;
         return lastPage;
     }
 
-    public void parsePage(Document document){
+    public void parsePage(Document document, MaterialsService materialsService){
         for (int i = 0; i <= 200; i++){
-            Elements materialsNames = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[1]/div/a");
-            Elements materialsPrices = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[2]/span");
-            Elements materialsUnits = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[2]");
-            Elements materialsProviders = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[2]/div[1]/span");
+            Elements materialsNames;
+            Elements materialsPrices;
+            Elements materialsUnits;
+            Elements materialsProviders;
+            if (country.equals("kz")||country.equals("pl")){
+                materialsNames = document.selectXpath("/html/body/div[1]/main/div[8]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[1]/div/a");
+                materialsPrices = document.selectXpath("/html/body/div[1]/main/div[8]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[2]/span");
+                materialsUnits = document.selectXpath("/html/body/div[1]/main/div[8]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[2]");
+                materialsProviders = document.selectXpath("/html/body/div[1]/main/div[8]/div[2]/div[1]/div[1]/div[" + i + "]/div[2]/div[1]/span");
+            }else {
+                materialsNames = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[1]/div/a");
+                materialsPrices = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[2]/span");
+                materialsUnits = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[1]/div[2]");
+                materialsProviders = document.selectXpath("/html/body/div[1]/main/div[9]/div[2]/div[1]/div[1]/div[" + i + "]/div[2]/div[1]/span");
+            }
             for (Element el: materialsNames){
                 Material obj = new Material();
                 String name = el.ownText();

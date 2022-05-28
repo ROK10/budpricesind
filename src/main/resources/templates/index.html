@@ -13,28 +13,22 @@
     <div class="block">
         <div class="row">
             <div class="container">
-                <form class="profile-container" th:action="@{/materials}" th:object="${selectedMaterial}" th:method="get">
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialName" id="materialName" th:field="*{id}" required>
+                <form class="profile-container" th:action="@{/materials}" th:object="${selectedMaterial}"  th:method="get">
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialName" id="materialName" th:field="*{typeName}" required>
+                            <option th:each="Types : ${materialsTypes}"
+                                    th:value="${Types.typeName}"
+                                    th:text="${Types.text}">Options</option>
+                    </select>
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialName" id="materialCountry" th:field="*{countryName}" th:object="${selectedCountry}" required>
+                            <option th:each="Countries : ${countries}"
+                                    th:value="${Countries.countryName}"
+                                    th:text="${Countries.text}">Options</option>
+                    </select>
+                    <!--<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialName" id="pagesToParse" th:field="*{typeName}" required>
                         <option th:each="Types : ${materialsTypes}"
                                 th:value="${Types.typeName}"
                                 th:text="${Types.text}">Options</option>
-                        <!--<option disabled>Please select material</option>
-                        <option value="1">Асфальтобетонна суміш</option>
-                        <option value="2">Цемент</option>
-                        <option value="3">Щебінь кубовидний</option>
-                        <option value="4">Металеве бар'єрне огородження</option>
-                        <option value="5">Металопрокат/option>
-                        <option value="6">Фарби для дорожньої розмітки</option>
-                        <option value="7">Пластичні маси для дорожньої розмітки</option>
-                        <option value="8">Полімерні стрічки для дорожньої розмітки</option>
-                        <option value="9">Ланки водопропускних труб</option>
-                        <option value="10">Бітум дорожній</option>
-                        <option value="11">Емульсія бітумна</option>
-                        <option value="12">Щебінь</option>
-                        <option value="13">Щебенево-піщана суміш</option>
-                        <option value="14">Мазут  паливний</option>
-                        <option value="15">Паливо дизельне</option>-->
-                    </select>
+                    </select>-->
                     <!--<div class="form-check">
                         <input class="form-check-input" type="radio" name="exampleRadios" id="kiloRadio" value="option1" checked>
                         <label class="form-check-label" for="kiloRadio">

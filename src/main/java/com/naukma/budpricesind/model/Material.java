@@ -16,7 +16,7 @@ public class Material {
 
     @Id
     @Column(name = "id", nullable = false,unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")
@@ -30,17 +30,4 @@ public class Material {
 
     @Column(name = "provider")
     private String provider;
-
-    @ManyToOne(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
-    @JoinColumn(name = "material_types")
-    private MaterialType type;
-
-    public MaterialType getMaterialType() {
-        return type;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
-        this.type = materialType;
-    }
 }
