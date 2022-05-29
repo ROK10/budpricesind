@@ -1,6 +1,6 @@
 package com.naukma.budpricesind.controller;
 
-import com.naukma.budpricesind.job.ParseTask;
+import com.naukma.budpricesind.task.ParseTask;
 import com.naukma.budpricesind.model.Country;
 import com.naukma.budpricesind.model.MaterialType;
 import com.naukma.budpricesind.service.MaterialsService;
@@ -27,7 +27,7 @@ public class MaterialsController {
     public String getIndex(Model model,
                            @ModelAttribute("selectedMaterial") MaterialType selectedMaterial,
                            @ModelAttribute("selectedCountry") Country selectedCountry){
-        if (!isAdded){
+        if (!isAdded) {
             addTypes();
         }
         model.addAttribute("materialsTypes", materialsTypes);
@@ -110,7 +110,7 @@ public class MaterialsController {
         type13.setText("Щебенево-піщана суміш");
         type13.setSection("/universalnye-stroitelnye-smesi");
         type14.setTypeName("Мазут+топливный");
-        type14.setText("Мазут  паливний");
+        type14.setText("Мазут паливний");
         type14.setSection("/mazut");
         c1.setCountryName("ua");
         c1.setText("Україна");

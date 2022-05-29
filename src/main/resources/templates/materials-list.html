@@ -29,7 +29,7 @@
                         <tbody>
                             <tr class = "materials-list" th:each="Material: ${materials}">
                                 <td data-table-header="Id" th:text="${Material.id}"></td>
-                                <td data-table-header="Name" th:text="${Material.name}"></td>
+                                <td data-table-header="Name"><a th:href = "${Material.href}" th:text="${Material.name}"></a></td>
                                 <td data-table-header="Price" th:text="${Material.price}"></td>
                                 <td data-table-header="Unit" th:text="${Material.unit}"></td>
                                 <td data-table-header="Provider" th:text="${Material.provider}"></td>

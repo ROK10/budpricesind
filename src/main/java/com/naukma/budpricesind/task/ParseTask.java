@@ -1,4 +1,4 @@
-package com.naukma.budpricesind.job;
+package com.naukma.budpricesind.task;
 
 import com.naukma.budpricesind.model.Material;
 import com.naukma.budpricesind.model.MaterialType;
@@ -23,7 +23,7 @@ public class ParseTask {
         country = countryName;
         currentType = materialType;
         String url = "https://flagma." + countryName + "/products" + materialType.getSection() + "/q=" + materialType.getTypeName() + "/type:sell/";
-        parseAllPages(url, findLastPage(url,page),materialsService);
+        parseAllPages(url, findLastPage(url,page), materialsService);
     }
 
     public void parseAllPages(String url, int numberOfPages,MaterialsService materialsService){
@@ -35,7 +35,7 @@ public class ParseTask {
                         .timeout(50000)
                         .referrer("https://www.google.com/")
                         .get();
-                parsePage(doc,materialsService);
+                parsePage(doc, materialsService);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -94,9 +94,11 @@ public class ParseTask {
             }
             for (Element el: materialsNames){
                 Material obj = new Material();
+                String href = el.attr("href");
                 String name = el.ownText();
                 if(!materialsService.isExist(name)){
                     obj.setName(name);
+                    obj.setHref(href);
                     for (Element el1: materialsPrices) {
                         String price = el1.ownText();
                         if(el1.ownText().contains("-")||el1.ownText().isEmpty()){

@@ -31,6 +31,9 @@ public class Material {
     @Column(name = "provider")
     private String provider;
 
+    @Column(name = "href")
+    private String href;
+
     @ManyToOne(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     @JoinColumn(name = "type")
