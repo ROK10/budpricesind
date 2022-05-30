@@ -100,7 +100,7 @@ public class MaterialsController {
         type10.setTypeName("Дорожный+битум");
         type10.setText("Дорожній бітум");
         type10.setSection("/bitum");
-        type11.setTypeName("Эмульсия+битумная");
+        type11.setTypeName("битумная+эмульсия");
         type11.setText("Емульсія бітумна");
         type11.setSection("/bitum");
         type12.setTypeName("Щебень");

@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Material {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 

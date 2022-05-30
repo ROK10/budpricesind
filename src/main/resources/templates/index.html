@@ -14,38 +14,23 @@
         <div class="row">
             <div class="container">
                 <form class="profile-container" th:action="@{/materials}" th:object="${selectedMaterial}"  th:method="get">
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialName" id="materialName" th:field="*{typeName}" required>
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialName" id="materialName"
+                            th:field="*{typeName}" required>
                             <option th:each="Types : ${materialsTypes}"
                                     th:value="${Types.typeName}"
                                     th:text="${Types.text}">Options</option>
                     </select>
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialCountry" id="materialCountry" th:field="*{countryName}" th:object="${selectedCountry}" required>
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialCountry" id="materialCountry"
+                            th:field="*{countryName}" th:object="${selectedCountry}" required>
                             <option th:each="Countries : ${countries}"
                                     th:value="${Countries.countryName}"
                                     th:text="${Countries.text}">Options</option>
                     </select>
                     <div class="input-group input-group-lg">
                         <span class="input-group-text" id="inputGroup-sizing-lg">Number of pages to parse</span>
-                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name="page" required>
+                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
+                               name="page" required>
                     </div>
-
-                    <!--<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="materialName" id="pagesToParse" th:field="*{typeName}" required>
-                        <option th:each="Types : ${materialsTypes}"
-                                th:value="${Types.typeName}"
-                                th:text="${Types.text}">Options</option>
-                    </select>-->
-                    <!--<div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="kiloRadio" value="option1" checked>
-                        <label class="form-check-label" for="kiloRadio">
-                            Ціна за кілограм
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="tonRadio" value="option2">
-                        <label class="form-check-label" for="tonRadio">
-                            Ціна за тонну
-                        </label>
-                    </div>-->
                     <button type="submit" class="btn btn-primary btn-lg">Search</button>
                 </form>
             </div>

@@ -7,11 +7,11 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@Table(name = "types")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "types")
 public class MaterialType {
 
     @Id

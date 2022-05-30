@@ -8,8 +8,8 @@ import java.util.List;
 @Service
 public interface MaterialsService {
 
-    public void save(Material material);
-    public boolean isExist(String name);
-    public List<Material> getAllMaterials();
-    public void clear();
+    void save(Material material);
+    boolean isExist(String name);
+    List<Material> getAllMaterials();
+    void clear();
 }

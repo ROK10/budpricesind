@@ -19,10 +19,13 @@ public class ParseTask {
     public String uAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36";
     public MaterialType currentType;
 
-    public void parseNewMaterial(MaterialsService materialsService, MaterialType materialType, String countryName, int page){
+    public void parseNewMaterial(MaterialsService materialsService,
+                                 MaterialType materialType,
+                                 String countryName, int page){
         country = countryName;
         currentType = materialType;
-        String url = "https://flagma." + countryName + "/products" + materialType.getSection() + "/q=" + materialType.getTypeName() + "/type:sell/";
+        String url = "https://flagma." + countryName + "/products" + materialType.getSection()
+                + "/q=" + materialType.getTypeName() + "/type:sell/";
         parseAllPages(url, findLastPage(url,page), materialsService);
     }
 
@@ -126,8 +129,10 @@ public class ParseTask {
             obj.setUnit(obj.getUnit().replace("кг", "т"));
             obj.setPrice(obj.getPrice() * 1000);
         }
-        if (obj.getUnit().contains("FCA")){
+        if (obj.getUnit().contains("FCA")||obj.getUnit().contains("EXW")||obj.getUnit().contains("CFR")){
             obj.setUnit(obj.getUnit().replace("FCA", ""));
+            obj.setUnit(obj.getUnit().replace("EXW", ""));
+            obj.setUnit(obj.getUnit().replace("CFR", ""));
         }
         if (obj.getUnit().contains("от ")){
             obj.setUnit(obj.getUnit().replace("от ", ""));
@@ -149,6 +154,26 @@ public class ParseTask {
                 case "pl":
                     obj.setUnit(obj.getUnit().replace("$", "zł"));
                     obj.setPrice(Precision.round(obj.getPrice() * 4.26,3));
+                    break;
+            }
+        }
+        if (obj.getUnit().contains("€")) {
+            switch (country){
+                case "ua":
+                    obj.setUnit(obj.getUnit().replace("€", "грн"));
+                    obj.setPrice(Precision.round(obj.getPrice() * 31.67,3));
+                    break;
+                case "by":
+                    obj.setUnit(obj.getUnit().replace("€", "руб"));
+                    obj.setPrice(Precision.round(obj.getPrice() * 3.62,3));
+                    break;
+                case "kz":
+                    obj.setUnit(obj.getUnit().replace("€", "тг."));
+                    obj.setPrice(Precision.round(obj.getPrice() * 466.58,3));
+                    break;
+                case "pl":
+                    obj.setUnit(obj.getUnit().replace("€", "zł"));
+                    obj.setPrice(Precision.round(obj.getPrice() * 4.57,3));
                     break;
             }
         }
